@@ -7,7 +7,7 @@ class CriptArquivojson:
         self.chave = "chave.key"
         self.base_dir = Path(base_dir) if base_dir else Path(__file__).resolve().parent
         self.dados_criptografado = self.base_dir / "senhas_logins.json.enc"
-        self.nome_json = self.base_dir / "senhas_logins.json"  # caminho direto (sem instanciar objetos)
+        self.nome_json = self.base_dir / "senhas_logins.json"  # caminho direto sem instanciar os objetos lembrar desse comentario
 
     def caminho_chave(self) -> Path:
         return self.base_dir / self.chave
@@ -76,5 +76,7 @@ class CriptArquivojson:
 
 
 teste = CriptArquivojson()
-teste.gerar_chave()
-teste.criptografar_arquivo()
+#teste.gerar_chave()
+#teste.criptografar_arquivo()
+
+teste.descriptografar_arquivo()

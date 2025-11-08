@@ -7,7 +7,7 @@ from site_login_models import SiteLoginModels
 
 class SenhasLoginsJson(SenhaModel, SiteLoginModels):
     def __init__(self, site=None, login=None):
-        SenhaModel.__init__(self)
+        super().__init__()
         SiteLoginModels.__init__(self, site, login)
         self.caminho = Path(__file__).resolve().parent
         self.nome_caminho = "senhas_logins.json"
@@ -16,12 +16,14 @@ class SenhasLoginsJson(SenhaModel, SiteLoginModels):
         return self.caminho / self.nome_caminho
 
     def salvar_json(self):
+
+        self.from_prompt()
         
         arquivo = self.caminho_json()
         
 
         # Gera a senha
-        senha_gerada = self.gerar_senha()[0]
+        senha_gerada = self.gerar_senha()
 
         novo_registro = {
             "site": self.site,
@@ -49,10 +51,12 @@ class SenhasLoginsJson(SenhaModel, SiteLoginModels):
         return arquivo
 
 
-
+'''
 if __name__ == "__main__":
     site = input("Digite o site: ")
     login = input("Digite o login: ")
 
     gerenciador = SenhasLoginsJson(site, login)
     gerenciador.salvar_json()
+
+'''    
