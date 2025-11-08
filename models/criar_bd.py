@@ -46,6 +46,8 @@ class SenhasLoginsJson(SenhaModel, SiteLoginModels):
 
         print(f"✅ Dados salvos com sucesso em: {arquivo}")
 
+        return arquivo
+
 
 
 if __name__ == "__main__":
