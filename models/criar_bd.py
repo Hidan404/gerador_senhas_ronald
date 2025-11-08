@@ -1,6 +1,56 @@
 import json
+from datetime import datetime
+from pathlib import Path
+from password_models import SenhaModel
+from site_login_models import SiteLoginModels
 
 
-class SenhasLoginsJson():
-    def __init__(self):
-        pass
+class SenhasLoginsJson(SenhaModel, SiteLoginModels):
+    def __init__(self, site=None, login=None):
+        SenhaModel.__init__(self)
+        SiteLoginModels.__init__(self, site, login)
+        self.caminho = Path(__file__).resolve().parent
+        self.nome_caminho = "senhas_logins.json"
+
+    def caminho_json(self):
+        return self.caminho / self.nome_caminho
+
+    def salvar_json(self):
+        
+        arquivo = self.caminho_json()
+        
+
+        # Gera a senha
+        senha_gerada = self.gerar_senha()[0]
+
+        novo_registro = {
+            "site": self.site,
+            "login": self.login,
+            "senha": senha_gerada,
+        }
+
+        if not arquivo.exists():
+            dados = {"registros": [novo_registro]}
+        else:
+            with open(arquivo, "r", encoding="utf-8") as f:
+                try:
+                    dados = json.load(f)
+                except json.JSONDecodeError:
+                    dados = {"registros": []}
+
+            dados["registros"].append(novo_registro)
+
+        # Salva no JSON
+        with open(arquivo, "w", encoding="utf-8") as f:
+            json.dump(dados, f, ensure_ascii=False, indent=4)
+
+        print(f"✅ Dados salvos com sucesso em: {arquivo}")
+
+
+
+if __name__ == "__main__":
+    site = input("Digite o site: ")
+    login = input("Digite o login: ")
+
+    gerenciador = SenhasLoginsJson(site, login)
+    gerenciador.salvar_json()
