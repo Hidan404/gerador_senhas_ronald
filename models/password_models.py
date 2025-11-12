@@ -7,11 +7,8 @@ class SenhaModel():
                  maiusculas=True, minusculas=True, simbolos=True, digitos=True):
         """
         Se comprimento for None, não pede input — isso evita prompts ao instanciar.
-        Use `from_prompt()` para criar a partir de input.
+        use from_prompt tive dificuldade nessa parte do codigo.
         """
-        '''
-        erros
-        '''
         self.comprimento = comprimento
         self.maiusculas = maiusculas
         self.minusculas = minusculas
