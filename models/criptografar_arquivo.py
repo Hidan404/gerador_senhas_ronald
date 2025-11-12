@@ -12,6 +12,12 @@ class CriptArquivojson:
     def caminho_chave(self) -> Path:
         return self.base_dir / self.chave
 
+    def remover_arquivoCriptografado(self):
+        return os.remove(self.dados_criptografado)
+    
+    def remover_arquivo_json(self):
+        return os.remove(self.nome_json)
+
     def gerar_chave(self):
         key_file = self.caminho_chave()
         if key_file.exists():
@@ -49,7 +55,8 @@ class CriptArquivojson:
         # Criptografa
         criptografado = fernet.encrypt(le_conteudo)
 
-        # Escreve arquivo .enc
+        # Escrevendoo arquivo .enc
+        # Dando permissão padrão
         self.dados_criptografado.write_bytes(criptografado)
         try:
             self.dados_criptografado.chmod(0o600)
@@ -58,7 +65,8 @@ class CriptArquivojson:
 
         # Remover o arquivo original somente após sucesso
         # (fazer backup se quiser)
-        json_path.unlink()
+        #json_path.unlink()
+        self.remover_arquivo_json()
         print("Arquivo criptografado salvo em:", self.dados_criptografado)
 
     def descriptografar_arquivo(self):
@@ -71,12 +79,13 @@ class CriptArquivojson:
         # salva com mesmo nome sem .enc
         out_path = enc_path.with_suffix("")  # remove .enc
         out_path.write_bytes(conteudo)
+        self.remover_arquivoCriptografado()
         print("Arquivo descriptografado salvo em:", out_path)
 
 
 
 teste = CriptArquivojson()
 #teste.gerar_chave()
-#teste.criptografar_arquivo()
+teste.criptografar_arquivo()
 
-teste.descriptografar_arquivo()
+#teste.descriptografar_arquivo()
