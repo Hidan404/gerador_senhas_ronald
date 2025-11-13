@@ -1,10 +1,13 @@
 from  models.criar_bd import SenhasLoginsJson
 
 
-class ExecutarControllers(SenhasLoginsJson):
-    def __init__(self, site=None, login=None):
-        super().__init__(site, login)
-        
+class ExecutarControllers():
+
     def main(self):
         # todo criar ordem de execução entre a logica e views
-        pass    
+        site = input("Digite seu site: ") 
+        login = input("Digite o login: ")
+        
+        gerenciador = SenhasLoginsJson(site, login)
+        gerenciador.salvar_json()
+        
