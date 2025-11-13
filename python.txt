@@ -1,0 +1,121 @@
+from textual.app import App, ComposeResult
+from textual.widgets import Header, Footer, Input, Button, Static, Label
+from textual.containers import Container
+from textual.screen import Screen
+from textual.validation import Validator, ValidationResult
+
+# Importe seu controller e modelo existentes
+from controllers.senha_controller import ExecutarControllers 
+from models.criar_bd import SenhasLoginsJson
+
+# ----------------------------------------------------
+# 1. Definir o Layout e Estilo (CSS)
+# ----------------------------------------------------
+
+# Definimos o CSS em uma string ou em um arquivo .css separado
+TUI_CSS = """
+Screen {
+    layout: vertical;
+    align: center middle;
+}
+
+Container {
+    width: 50%;
+    height: auto;
+    padding: 1 2;
+    background: $boost;
+    border: heavy $primary;
+}
+
+Input {
+    margin-top: 1;
+    margin-bottom: 1;
+    height: 3;
+    padding: 0 1;
+}
+
+Button {
+    margin-top: 1;
+    margin-right: 1;
+}
+
+#status_message {
+    margin-top: 1;
+    color: $text;
+}
+"""
+
+# ----------------------------------------------------
+# 2. Definir a Tela Principal (Screen)
+# ----------------------------------------------------
+
+class GerenciadorSenhaTUI(Screen):
+    """Uma tela para inserir e salvar credenciais."""
+
+    def compose(self) -> ComposeResult:
+        """Cria os widgets e o layout."""
+        yield Header(show_clock=True)
+        yield Footer()
+        yield Container(
+            Label("Gerenciador de Senhas TUI"),
+            Input(placeholder="Nome do Site (Ex: Google)", id="site_input"),
+            Input(placeholder="Seu Login/Usuário", id="login_input"),
+            Button("Salvar Senha", id="save_button", variant="primary"),
+            Static("", id="status_message"),
+        )
+
+    # ----------------------------------------------------
+    # 3. Gerenciar Eventos (Interação do Usuário)
+    # ----------------------------------------------------
+
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        """Manipula o clique do botão."""
+        if event.button.id == "save_button":
+            self.action_salvar_senha()
+
+    def action_salvar_senha(self) -> None:
+        site = self.query_one("#site_input", Input).value
+        login = self.query_one("#login_input", Input).value
+        status_label = self.query_one("#status_message", Static)
+
+        if not site or not login:
+            status_label.update("❌ Erro: Preencha todos os campos.")
+            status_label.styles.color = "red"
+            return
+
+        try:
+            # Integração com sua lógica existente
+            # O código abaixo usa sua classe SenhasLoginsJson
+            gerenciador = SenhasLoginsJson(site, login)
+            caminho_arquivo = gerenciador.salvar_json()
+            
+            status_label.update(f"✅ Sucesso! Dados salvos em: {caminho_arquivo.name}")
+            status_label.styles.color = "green"
+
+            # Limpar inputs após sucesso
+            self.query_one("#site_input", Input).value = ""
+            self.query_one("#login_input", Input).value = ""
+
+        except Exception as e:
+            status_label.update(f"❌ Ocorreu um erro ao salvar: {e}")
+            status_label.styles.color = "red"
+
+# ----------------------------------------------------
+# 4. Inicializar o Aplicativo
+# ----------------------------------------------------
+
+class TuiApp(App[None]):
+    """Define o aplicativo Textual."""
+    
+    CSS = TUI_CSS
+    BINDINGS = [("q", "quit", "Sair do aplicativo")]
+
+    def on_mount(self) -> None:
+        """Exibido quando o app inicia."""
+        self.push_screen(GerenciadorSenhaTUI())
+
+
+if __name__ == "__main__":
+    app = TuiApp()
+    app.run()
+
