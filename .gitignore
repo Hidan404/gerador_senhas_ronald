@@ -1,0 +1,23 @@
+# Ambiente virtual
+.venv/
+venv/
+ENV/
+
+# Arquivos de chaves e segredos
+*.key
+*.env
+.env
+**/*.key
+
+# Arquivos de banco e JSON sensível
+models/senhas_logins.json
+**/senhas_logins.json
+
+# Cache do Python
+__pycache__/
+**/__pycache__/
+*.pyc
+
+# Arquivos gerados automaticamente
+*.enc
+*.db
