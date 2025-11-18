@@ -17,7 +17,7 @@ class CliView():
 
         while True:
             self.menu()
-            escolha = input("Digite uma das opções [1, 2, Q]: ").lower()
+            escolha = input("Digite uma das opções [1, 2, 3, 4, Q]: ").lower()
             if len(escolha) > 1 and escolha not in ['q', '1', '2']:
                 print("Opção inválida. Tente novamente.")
             elif escolha == '1':
@@ -35,7 +35,6 @@ class CliView():
                 cript_arquivo_json.descriptografar_arquivo()
             elif escolha == '4':
                 cript_arquivo_json.criptografar_arquivo()    
-
             elif escolha == 'q':
                 print("Saindo...")
                 break

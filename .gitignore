@@ -20,4 +20,4 @@ __pycache__/
 
 # Arquivos gerados automaticamente
 *.enc
-*.db
+*.json
