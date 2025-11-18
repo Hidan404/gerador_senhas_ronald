@@ -1,39 +1,40 @@
-bash '''
+# 🔐 Gerenciador de Senhas CLI
 
-Gerenciador de Senhas CLI
 Um aplicativo de linha de comando para gerenciar senhas de forma segura, permitindo gerar, armazenar e criptografar senhas para diferentes sites e logins.
 
-📋 Funcionalidades
-Geração de Senhas Seguras: Cria senhas aleatórias com opções personalizáveis
+---
 
-Armazenamento Local: Salva senhas em arquivo JSON
+## 📋 Funcionalidades
 
-Criptografia Avançada: Protege os dados com criptografia Fernet
+- **Geração de Senhas Seguras:** Cria senhas aleatórias com opções personalizáveis  
+- **Armazenamento Local:** Salva senhas em arquivo JSON  
+- **Criptografia Avançada:** Protege os dados com criptografia **Fernet**  
+- **Interface CLI Amigável:** Menu interativo fácil de usar  
+- **Gestão de Múltiplas Contas:** Armazena site, login e senha  
 
-Interface CLI Amigável: Menu interativo fácil de usar
+---
 
-Gestão de Múltiplas Contas: Armazena site, login e senha
+## 🚀 Como Usar
 
-🚀 Como Usar
-Pré-requisitos
-Python 3.6 ou superior
+### ✔️ Pré-requisitos
+- Python **3.6+**
+- Dependência: `cryptography`
 
-Dependências: cryptography
+### 📦 Instalação
 
-Instalação
-bash
+```bash
 # Clone o repositório
 git clone [url-do-repositorio]
 
 # Instale as dependências
 pip install cryptography
-Execução
+▶️ Execução
 bash
+Copiar código
 python main.py
-Menu Principal
-Ao executar o programa, você verá as seguintes opções:
-
-text
+🧭 Menu Principal
+markdown
+Copiar código
 --- Gerenciador de Senhas CLI ---
 1. Criar nova senha
 2. Listar senhas
@@ -41,257 +42,167 @@ text
 4. Criptografar arquivo
 Q. Sair
 📝 Fluxo de Uso
-Criar Nova Senha (Opção 1):
-
+🔑 1. Criar Nova Senha
 Digite o site (ex: google.com)
 
-Digite o login/email
+Digite o login/e-mail
 
 Defina o comprimento da senha
 
-A senha será gerada automaticamente e salva no JSON
+A senha é gerada automaticamente e salva no JSON
 
-Opção de criptografar o arquivo imediatamente
+Pode criptografar o arquivo imediatamente
 
-Listar Senhas (Opção 2):
-
+📄 2. Listar Senhas
 Exibe todas as senhas salvas
 
 Mostra site, login e senha correspondente
 
-Criptografia (Opções 3 e 4):
+🔐 3 e 4. Criptografia
+Criptografa o arquivo JSON → .enc
 
-Criptografa o arquivo JSON para .enc
+Descriptografa .enc → JSON
 
-Descriptografa o arquivo .enc para JSON
-
-Gerenciamento automático de chaves de criptografia
+Gera e gerencia chaves automaticamente
 
 🏗️ Estrutura do Projeto
-text
+bash
+Copiar código
 gerenciador-senhas/
 │
-├── main.py                          # Ponto de entrada da aplicação
+├── main.py                          # Ponto de entrada
 ├── models/
-│   ├── criar_bd.py                  # Gerenciamento do banco de dados JSON
-│   ├── password_models.py           # Modelo para geração de senhas
+│   ├── criar_bd.py                  # Gerencia o "banco" JSON
+│   ├── password_models.py           # Modelo de criação de senhas
 │   ├── site_login_models.py         # Modelo para sites e logins
 │   └── criptografar_arquivo.py      # Criptografia de arquivos
 ├── controllers/
 │   └── senha_controller.py          # Controlador principal
 └── views/
-    └── cli_view.py                  # Interface de linha de comando
+    └── cli_view.py                  # Interface CLI
 🔧 Componentes Principais
-Models
+🧩 Models
 SenhaModel (password_models.py)
-Gerencia a criação de senhas seguras com critérios personalizáveis.
+Gera senhas seguras usando secrets
 
-Funcionalidades:
+Personalização de comprimento e caracteres
 
-Geração de senhas usando secrets para segurança criptográfica
+Método from_prompt() para solicitar dados ao usuário
 
-Configuração de comprimento e tipos de caracteres
-
-Método from_prompt() para entrada interativa do usuário
-
-Uso:
-
-python
-senha_model = SenhaModel()
-senha_model.from_prompt()  # Solicita comprimento via input
-senha_gerada = senha_model.gerar_senha()
 SiteLoginModels (site_login_models.py)
-Gerencia informações de sites e logins com registro temporal.
-
-Funcionalidades:
-
-Armazenamento de sites e logins com data/hora
-
-Lista interna para gerenciamento de múltiplos registros
+Armazena sites e logins com registro de data/hora
 
 SenhasLoginsJson (criar_bd.py)
-Combina funcionalidades de senhas e sites para persistência em JSON.
+Herda de outros models
 
-Funcionalidades:
+Salva dados no JSON
 
-Herda de SenhaModel e SiteLoginModels
-
-Salva dados em arquivo JSON estruturado
-
-Lista senhas salvas
-
-Método salvar_json() para persistência completa
+Lista registros existentes
 
 CriptArquivojson (criptografar_arquivo.py)
-Gerencia criptografia e descriptografia de arquivos usando Fernet.
+Usa Fernet para criptografar/descriptografar
 
-Funcionalidades:
+Gera chave e salva em chave.key
 
-Geração e armazenamento seguro de chaves
+Remove arquivos originais após criptografia
 
-Criptografia de arquivos JSON para .enc
-
-Descriptografia de arquivos .enc para JSON
-
-Remoção segura de arquivos originais após criptografia
-
-Controller
+🕹️ Controller
 ExecutarControllers (senha_controller.py)
-Orquestra a execução entre models e views.
+Coordena fluxo entre models e views
 
-Funcionalidades:
+Solicita informações do usuário
 
-Coordena entrada do usuário (site, login)
+Executa todo o processo de salvamento de senha
 
-Inicializa gerenciador de senhas
-
-Executa fluxo principal de salvamento
-
-View
+🎛️ View
 CliView (cli_view.py)
-Interface de linha de comando interativa.
+Exibe o menu principal
 
-Funcionalidades:
+Recebe opções do usuário
 
-Menu principal com opções numeradas
-
-Integração com todos os componentes
-
-Fluxo de controle da aplicação
-
-Tratamento de opções do usuário
+Chama os controladores necessários
 
 🔒 Segurança
-Implementações de Segurança
-Criptografia Fernet: Usa biblioteca cryptography para proteção robusta
+Implementações
+Criptografia Fernet
 
-Gerenciamento Automático de Chaves: Gera e armazena chaves seguras em chave.key
+Arquivo chave.key gerado automaticamente
 
-Arquivos Protegidos: Define permissões restritas (600) em arquivos sensíveis
+Permissões restritas (600)
 
-Geração Segura de Senhas: Utiliza módulo secrets em vez de random
+Uso de secrets em vez de random
 
-Limpeza de Arquivos: Remove arquivos originais após criptografia bem-sucedida
+Remoção automática de JSON original após criptografia
 
-Protocolo de Criptografia
+Exemplo de Criptografia
 python
-# Geração de chave
+Copiar código
 chave = Fernet.generate_key()
-
-# Criptografia
 fernet = Fernet(chave)
 criptografado = fernet.encrypt(conteudo)
-
-# Descriptografia
 conteudo = fernet.decrypt(arquivo_criptografado)
 💾 Armazenamento de Dados
 Estrutura do JSON
-Os dados são salvos em senhas_logins.json com a estrutura:
-
 json
+Copiar código
 {
     "registros": [
         {
             "site": "exemplo.com",
             "login": "usuario@email.com",
             "senha": "s3nh4-ger4d4"
-        },
-        {
-            "site": "outrosite.com",
-            "login": "meulogin",
-            "senha": "0utr4-s3nh4"
         }
     ]
 }
 Fluxo de Dados
-Entrada do Usuário → Site e login
-
-Geração de Senha → Critérios personalizáveis
-
-Persistência → Salva em JSON estruturado
-
-Criptografia → Converte para arquivo .enc seguro
-
-Recuperação → Descriptografa e lista quando necessário
+Usuário → Geração de Senha → JSON → Criptografia → Descriptografia (quando necessário)
 
 ⚠️ Observações Importantes
 Segurança Crítica
-Mantenha o arquivo chave.key em local seguro - sem ele não é possível descriptografar os dados
+Nunca perca o arquivo chave.key
 
-Faça backup da chave - perda da chave significa perda permanente dos dados criptografados
+Sem ele, não há como recuperar os dados
 
-O arquivo JSON original é removido após criptografia para prevenir acesso não criptografado
+Faça backup da chave em local seguro
 
 Boas Práticas
-Criptografe sempre após o uso para manter os dados protegidos
+Criptografe sempre após uso
 
-Use em ambiente seguro - evite computadores públicos ou compartilhados
+Evite usar em computadores públicos
 
-Mantenha o software atualizado - especialmente a biblioteca cryptography
+Mantenha cryptography atualizada
 
-Limitações Conhecidas
-Interface apenas em português
+Limitações
+Sem interface gráfica
 
-Dependência de arquivo local para armazenamento
+Sem sincronização em nuvem
 
-Não possui sincronização em nuvem
+Apenas em português
 
 🛠️ Desenvolvimento
-Para Contribuir com o Projeto
-Siga a estrutura MVC existente
-
-Models: Lógica de negócio e dados
-
-Views: Interface do usuário
-
-Controllers: Orquestração entre models e views
-
-Mantenha a separação de responsabilidades
-
-Cada classe com propósito específico
-
-Baixo acoplamento entre módulos
-
-Adicione novas funcionalidades mantendo compatibilidade
-
-Teste com fluxos existentes
-
-Mantenha interface consistente
-
-Estrutura de Arquivos Recomendada para Expansão
-text
+Estrutura Sugerida para Expansão
+css
+Copiar código
 gerenciador-senhas/
-│
 ├── main.py
 ├── requirements.txt
 ├── README.md
-├── tests/                          # Para testes futuros
+├── tests/
 │   └── test_models.py
 ├── models/
-│   ├── __init__.py
-│   ├── criar_bd.py
-│   ├── password_models.py
-│   ├── site_login_models.py
-│   └── criptografar_arquivo.py
 ├── controllers/
-│   ├── __init__.py
-│   └── senha_controller.py
 └── views/
-    ├── __init__.py
-    └── cli_view.py
 Possíveis Melhorias Futuras
 Interface gráfica (GUI)
 
-Sincronização com nuvem segura
+Sincronização com nuvem
 
 Exportação/importação de dados
 
-Geração de relatórios de segurança
+Relatórios de segurança
 
-Análise de força de senhas
+Testes automatizados
 
-Compartilhamento seguro de senhas
-'''
-
-⚠️ AVISO LEGAL: Este é um projeto para fins educacionais. Use com responsabilidade e considere medidas de segurança adicionais para dados sensíveis. Os desenvolvedores não se responsabilizam por perda de dados ou violações de segurança.
-
+⚠️ AVISO LEGAL
+Este projeto é para fins educacionais. Use com responsabilidade.
+Os desenvolvedores não se responsabilizam por perda de dados ou falhas de segurança.
