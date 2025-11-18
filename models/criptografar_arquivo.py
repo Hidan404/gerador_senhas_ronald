@@ -84,8 +84,3 @@ class CriptArquivojson:
 
 
 
-teste = CriptArquivojson()
-#teste.gerar_chave()
-#teste.criptografar_arquivo()
-
-teste.descriptografar_arquivo()
