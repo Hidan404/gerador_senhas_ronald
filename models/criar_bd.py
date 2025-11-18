@@ -1,8 +1,8 @@
 import json
 from datetime import datetime
 from pathlib import Path
-from password_models import SenhaModel
-from site_login_models import SiteLoginModels
+from .password_models import SenhaModel
+from .site_login_models import SiteLoginModels
 
 
 class SenhasLoginsJson(SenhaModel, SiteLoginModels):
@@ -49,6 +49,26 @@ class SenhasLoginsJson(SenhaModel, SiteLoginModels):
         print(f"✅ Dados salvos com sucesso em: {arquivo}")
 
         return arquivo
+    
+    def listar_senhas(self):
+        arquivo = self.caminho_json()
+        if not arquivo.exists():
+            print("Nenhum registro encontrado.")
+            return
+
+        with open(arquivo, "r", encoding="utf-8") as f:
+            try:
+                dados = json.load(f)
+            except json.JSONDecodeError:
+                print("Nenhum registro encontrado.")
+                return
+
+        print("\n--- Senhas Salvas ---")
+        for registro in dados.get("registros", []):
+            print(f"Site: {registro['site']}")
+            print(f"Login: {registro['login']}")
+            print(f"Senha: {registro['senha']}")
+            print("---------------------")
 
 
 '''
