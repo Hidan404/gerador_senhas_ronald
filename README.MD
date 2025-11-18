@@ -1,3 +1,5 @@
+bash '''
+
 Gerenciador de Senhas CLI
 Um aplicativo de linha de comando para gerenciar senhas de forma segura, permitindo gerar, armazenar e criptografar senhas para diferentes sites e logins.
 
@@ -289,6 +291,7 @@ Geração de relatórios de segurança
 Análise de força de senhas
 
 Compartilhamento seguro de senhas
+'''
 
 ⚠️ AVISO LEGAL: Este é um projeto para fins educacionais. Use com responsabilidade e considere medidas de segurança adicionais para dados sensíveis. Os desenvolvedores não se responsabilizam por perda de dados ou violações de segurança.
 
